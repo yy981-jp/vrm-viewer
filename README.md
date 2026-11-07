@@ -79,7 +79,7 @@ vrm_viewer/
 
 ### First-time GitHub Pages setup
 
-In the repository Settings, open **Pages** and set **Build and deployment → Source** to **GitHub Actions**. The workflow then builds the pinned three-vrm source, updates `vendor/three-vrm/`, and deploys the viewer whenever `develop` is updated. If the first run started before Pages was enabled, rerun **Deploy to GitHub Pages** from the Actions tab.
+In repository Settings, set **Pages → Build and deployment → Source** to **GitHub Actions**. Also open **Environments → github-pages → Deployment branches and tags** and allow `develop`. The workflow then builds the pinned three-vrm source, updates `vendor/three-vrm/`, and deploys the viewer whenever `develop` is updated.
 
 ### Method 2: Local Development
 

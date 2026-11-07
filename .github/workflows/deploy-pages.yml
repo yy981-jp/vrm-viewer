@@ -6,21 +6,15 @@ on:
       - develop
   workflow_dispatch:
 
-permissions:
-  contents: write
-  pages: write
-  id-token: write
-
 concurrency:
   group: github-pages
   cancel-in-progress: true
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      contents: write
     steps:
       - name: Check out viewer
         uses: actions/checkout@v4
@@ -68,9 +62,6 @@ jobs:
             git push
           fi
 
-      - name: Configure GitHub Pages
-        uses: actions/configure-pages@v5
-
       - name: Prepare Pages artifact
         run: |
           mkdir -p _site
@@ -83,6 +74,16 @@ jobs:
         with:
           path: _site
 
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
