@@ -14,7 +14,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: read
     steps:
       - name: Check out viewer
         uses: actions/checkout@v4
@@ -49,18 +49,6 @@ jobs:
           cp "$VRM_BUNDLE" "$GITHUB_WORKSPACE/vendor/three-vrm/"
           cp "$VRMA_BUNDLE" "$GITHUB_WORKSPACE/vendor/three-vrm/"
           cp LICENSE "$GITHUB_WORKSPACE/vendor/three-vrm/LICENSE"
-
-      - name: Commit generated browser bundles
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add vendor/three-vrm/three-vrm.module.min.js vendor/three-vrm/three-vrm-animation.module.min.js vendor/three-vrm/LICENSE
-          if git diff --cached --quiet; then
-            echo "Generated three-vrm bundles are already up to date."
-          else
-            git commit -m "build: vendor three-vrm v3.6.0-beta.0"
-            git push
-          fi
 
       - name: Prepare Pages artifact
         run: |

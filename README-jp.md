@@ -157,7 +157,7 @@ vrm_viewer/
 - [@pixiv/three-vrm](https://github.com/pixiv/three-vrm) - VRMモデルサポート
 - [@pixiv/three-vrm-animation](https://github.com/pixiv/three-vrm) - VRMAアニメーションサポート
 
-Pages の workflow は、公式 `pixiv/three-vrm` の `v3.6.0-beta.0` タグからブラウザ用バンドルをビルドし、`vendor/three-vrm/` に保存します。未公開の npm beta に依存せず、ローカル実行でも同じバンドルを利用できます。
+Pages の workflow は、公式 `pixiv/three-vrm` の `v3.6.0-beta.0` タグからブラウザ用バンドルを毎回ビルドし、Pages の公開 artifact に含めます。`vendor/three-vrm/` にはローカル実行用の同バージョンの bundle を同梱しているため、未公開の npm beta に依存しません。
 
 ### アニメーション仕様
 

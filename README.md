@@ -158,7 +158,7 @@ Switch to the **Face** tab to control the model's face:
 - [@pixiv/three-vrm](https://github.com/pixiv/three-vrm) - VRM model support
 - [@pixiv/three-vrm-animation](https://github.com/pixiv/three-vrm) - VRMA animation support
 
-The Pages workflow builds both browser bundles from the pinned official `pixiv/three-vrm` tag `v3.6.0-beta.0` and commits them under `vendor/three-vrm/`. The bundles are served by the import map, so no npm CDN entry for this unpublished beta is required.
+The Pages workflow builds both browser bundles from the pinned official `pixiv/three-vrm` tag `v3.6.0-beta.0` on every deployment and includes them directly in the Pages artifact. Matching bundles are also checked in under `vendor/three-vrm/` for local use. This avoids depending on an unpublished npm beta.
 
 ### Animation Specifications
 
