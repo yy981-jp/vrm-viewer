@@ -6,7 +6,7 @@ A web-based VRM (Virtual Reality Model) viewer with VRMA (VRM Animation) support
 
 ## 🎮 Live Demo
 
-**[Try the Demo →](https://tk256ailab.github.io/vrm-viewer/)**
+**[Try the Demo →](https://yy981-jp.github.io/vrm-viewer/)**
 
 
 ## Features
@@ -14,6 +14,7 @@ A web-based VRM (Virtual Reality Model) viewer with VRMA (VRM Animation) support
 - 📱 **Responsive Design**: Works on desktop and mobile devices
 - 🎭 **VRM Model Support**: Load and display VRM 1.0 models
 - 🎬 **VRMA Animation**: Play custom VRMA animation files
+- 🌀 **Spring Bone Limits**: Support the draft `VRMC_springBone_limit` cone, hinge, and spherical constraints with the official three-vrm `v3.6.0-beta.0` build
 - 📂 **Drag & Drop**: Load your own `.vrm`/`.vrma` files by dropping them onto the page or using the file picker
 - 🎮 **Interactive Controls**: Play, pause, and stop animations with smooth crossfades between clips
 - 🦴 **Pose Editing**: Rotate every humanoid bone (including fingers) with sliders, or click a bone handle in the 3D view and drag the rotation gizmo directly
@@ -75,6 +76,10 @@ vrm_viewer/
    - Choose "main" branch and "/ (root)" folder
    - Click "Save"
 3. **Access your demo** at `https://YOUR-USERNAME.github.io/YOUR-REPOSITORY-NAME/`
+
+### First-time GitHub Pages setup
+
+In the repository Settings, open **Pages** and set **Build and deployment → Source** to **GitHub Actions**. The workflow then builds the pinned three-vrm source, updates `vendor/three-vrm/`, and deploys the viewer whenever `develop` is updated. If the first run started before Pages was enabled, rerun **Deploy to GitHub Pages** from the Actions tab.
 
 ### Method 2: Local Development
 
@@ -151,7 +156,9 @@ Switch to the **Face** tab to control the model's face:
 
 - [Three.js](https://threejs.org/) - 3D graphics library
 - [@pixiv/three-vrm](https://github.com/pixiv/three-vrm) - VRM model support
-- [@pixiv/three-vrm-animation](https://github.com/pixiv/three-vrm-animation) - VRMA animation support
+- [@pixiv/three-vrm-animation](https://github.com/pixiv/three-vrm) - VRMA animation support
+
+The Pages workflow builds both browser bundles from the pinned official `pixiv/three-vrm` tag `v3.6.0-beta.0` and commits them under `vendor/three-vrm/`. The bundles are served by the import map, so no npm CDN entry for this unpublished beta is required.
 
 ### Animation Specifications
 
