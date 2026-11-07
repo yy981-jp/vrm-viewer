@@ -6,13 +6,14 @@ Three.jsとthree-vrmライブラリを使用して構築された、VRMA（VRM�
 
 ## 🎮 ライブデモ
 
-**[デモを試す →](https://tk256ailab.github.io/vrm-viewer/)**
+**[デモを試す →](https://yy981-jp.github.io/vrm-viewer/)**
 
 ## 特徴
 
 - 📱 **レスポンシブデザイン**: デスクトップとモバイルデバイスで動作
 - 🎭 **VRMモデルサポート**: VRM 1.0モデルの読み込みと表示
 - 🎬 **VRMAアニメーション**: カスタムVRMAアニメーションファイルの再生
+- 🌀 **Spring Bone Limit**: 公式 three-vrm `v3.6.0-beta.0` を使用し、ドラフト版 `VRMC_springBone_limit` の Cone / Hinge / Spherical 制限に対応
 - 📂 **ドラッグ&ドロップ**: 自分の`.vrm`/`.vrma`ファイルをページにドロップ、またはファイル選択ボタンから読み込み可能
 - 🎮 **インタラクティブコントロール**: アニメーションの再生、一時停止、停止（クリップ切り替え時は滑らかにクロスフェード）
 - 🦴 **ポーズ編集**: 指を含む全ヒューマノイドボーンをスライダーで回転。3Dビュー上のボーンハンドルをクリックしてギズモで直接ドラッグ操作も可能
@@ -74,6 +75,10 @@ vrm_viewer/
    - ブランチを「main」、フォルダを「/ (root)」に設定
    - 「Save」をクリック
 3. **デモにアクセス** `https://YOUR-USERNAME.github.io/YOUR-REPOSITORY-NAME/`
+
+### GitHub Pages の初回設定
+
+リポジトリの Settings → Pages を開き、**Build and deployment → Source** を **GitHub Actions** に設定してください。その後は `develop` の更新時に three-vrm のビルドと Pages へのデプロイが自動実行されます。Pages の有効化前に最初の workflow が失敗した場合は、Actions タブから **Deploy to GitHub Pages** を再実行してください。
 
 ### 方法2: ローカル開発
 
@@ -150,7 +155,9 @@ vrm_viewer/
 
 - [Three.js](https://threejs.org/) - 3Dグラフィックスライブラリ
 - [@pixiv/three-vrm](https://github.com/pixiv/three-vrm) - VRMモデルサポート
-- [@pixiv/three-vrm-animation](https://github.com/pixiv/three-vrm-animation) - VRMAアニメーションサポート
+- [@pixiv/three-vrm-animation](https://github.com/pixiv/three-vrm) - VRMAアニメーションサポート
+
+Pages の workflow は、公式 `pixiv/three-vrm` の `v3.6.0-beta.0` タグからブラウザ用バンドルをビルドし、`vendor/three-vrm/` に保存します。未公開の npm beta に依存せず、ローカル実行でも同じバンドルを利用できます。
 
 ### アニメーション仕様
 

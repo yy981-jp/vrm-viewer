@@ -1,0 +1,88 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - develop
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Check out viewer
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.0
+
+      - name: Clone the official three-vrm source
+        run: git clone --depth 1 --branch v3.6.0-beta.0 https://github.com/pixiv/three-vrm.git "$RUNNER_TEMP/three-vrm"
+
+      - name: Install and build browser bundles
+        shell: bash
+        run: |
+          cd "$RUNNER_TEMP/three-vrm"
+          pnpm install --frozen-lockfile
+          pnpm -r --filter '@pixiv/three-vrm...' --filter '@pixiv/three-vrm-animation...' build
+
+          VRM_BUNDLE="packages/three-vrm/lib/three-vrm.module.min.js"
+          VRMA_BUNDLE="packages/three-vrm-animation/lib/three-vrm-animation.module.min.js"
+          test -s "$VRM_BUNDLE"
+          test -s "$VRMA_BUNDLE"
+          grep -q 'VRMC_springBone_limit' "$VRM_BUNDLE"
+
+          mkdir -p "$GITHUB_WORKSPACE/vendor/three-vrm"
+          cp "$VRM_BUNDLE" "$GITHUB_WORKSPACE/vendor/three-vrm/"
+          cp "$VRMA_BUNDLE" "$GITHUB_WORKSPACE/vendor/three-vrm/"
+          cp LICENSE "$GITHUB_WORKSPACE/vendor/three-vrm/LICENSE"
+
+      - name: Commit generated browser bundles
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add vendor/three-vrm/three-vrm.module.min.js vendor/three-vrm/three-vrm-animation.module.min.js vendor/three-vrm/LICENSE
+          if git diff --cached --quiet; then
+            echo "Generated three-vrm bundles are already up to date."
+          else
+            git commit -m "build: vendor three-vrm v3.6.0-beta.0"
+            git push
+          fi
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Prepare Pages artifact
+        run: |
+          mkdir -p _site
+          cp index.html _site/
+          cp -R VRM VRMA vendor _site/
+          touch _site/.nojekyll
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
