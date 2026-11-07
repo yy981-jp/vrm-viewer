@@ -78,7 +78,7 @@ vrm_viewer/
 
 ### GitHub Pages の初回設定
 
-リポジトリの Settings → Pages を開き、**Build and deployment → Source** を **GitHub Actions** に設定してください。その後は `develop` の更新時に three-vrm のビルドと Pages へのデプロイが自動実行されます。Pages の有効化前に最初の workflow が失敗した場合は、Actions タブから **Deploy to GitHub Pages** を再実行してください。
+リポジトリの Settings → Pages を開き、**Build and deployment → Source** を **GitHub Actions** に設定してください。さらに Settings → Environments → `github-pages` → Deployment branches and tags で `develop` を許可してください。その後は `develop` の更新時に three-vrm のビルドと Pages へのデプロイが自動実行されます。
 
 ### 方法2: ローカル開発
 
